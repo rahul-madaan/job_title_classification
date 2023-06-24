@@ -19,3 +19,7 @@ def upload_excel(request):
     else:
         form = ExcelFileUploadForm()
     return render(request, 'upload.html', {'form': form})
+
+
+def train_model(request):
+    return render(request, 'train_model.html')

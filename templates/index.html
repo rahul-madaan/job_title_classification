@@ -1,11 +1,68 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elegant Light-Themed Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-{% block body %}
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
 
-    <div class="container my-3 d-flex justify-content-center">
-        <div class="btn-group w-100" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-lg btn-primary w-100">TRAIN MODEL</button>
-            <button type="button" class="btn btn-lg btn-warning w-100">GET PREDICTIONS</button>
-        </div>
+        img {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .text {
+            margin-bottom: 15px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #fff;
+            color: #CC0000;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 2px solid #CC0000;
+            cursor: pointer;
+
+
+        }
+
+        .button:hover {
+            background-color: #CC0000;
+            color: #fff;
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <h2 style="color: #CC0000">Bain & Company</h2>
+        <img src="/static/ML%20icon.jpg" alt="Your 100x100 image">
+        <h3 style="color: #CC0000" >Job Title Classification</h3>
+        <a href="train_model/"><button class="button" >Go To Website</button></a>
     </div>
-{% endblock body %}
+</body>
+</html>

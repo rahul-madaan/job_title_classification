@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <style>
+        .btn.btn-primary {
+            background-color: #007BFF; /* Your custom color */
+            border: none;
+            }
+
+        .btn.btn-warning {
+            background-color: #CCCCCC; /* Your custom color */
+            border: none;
+            }
+
+        .btn.btn-warning:hover {
+            background-color: #0056B3; /* Custom hover background color */
+            color: #ffffff; /* Custom hover text color */
+        }
+    </style>
+
+    <div class="container my-3 d-flex justify-content-center">
+        <div class="btn-group w-100" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-lg btn-primary w-100">TRAIN MODEL</button>
+            <button type="button" class="btn btn-lg btn-warning w-100">GET PREDICTIONS</button>
+        </div>
+    </div>
+{% endblock body %}
