@@ -23,3 +23,6 @@ def upload_excel(request):
 
 def train_model(request):
     return render(request, 'train_model.html')
+
+def get_predictions(request):
+    return render(request, 'get_predictions.html')
