@@ -6,12 +6,12 @@
         .btn.btn-primary {
             background-color: #007BFF; /* Your custom color */
             border: none;
-            }
+        }
 
         .btn.btn-warning {
             background-color: #CCCCCC; /* Your custom color */
             border: none;
-            }
+        }
 
         .btn.btn-warning:hover {
             background-color: #0056B3; /* Custom hover background color */
@@ -19,10 +19,24 @@
         }
     </style>
 
+    {#    Botton group on top#}
     <div class="container my-3 d-flex justify-content-center">
         <div class="btn-group w-100" role="group" aria-label="Basic example">
-            <button type="button" onclick="window.location.href='/train_model/'" class="btn btn-lg btn-warning w-100" style="font-family: Raleway, sans-serif">TRAIN MODEL</button>
-             <button type="button" onclick="window.location.href='/get_predictions/'" class="btn btn-lg btn-primary w-100" style="font-family: Raleway, sans-serif">GET PREDICTIONS</button>
+            <button type="button" onclick="window.location.href='/train_model/'" class="btn btn-lg btn-warning w-100"
+                    style="font-family: Raleway, sans-serif">TRAIN MODEL
+            </button>
+            <button type="button" onclick="window.location.href='/get_predictions/'"
+                    class="btn btn-lg btn-primary w-100" style="font-family: Raleway, sans-serif">GET PREDICTIONS
+            </button>
         </div>
+    </div>
+
+    <div class="container">
+        <h2>Upload an Excel file</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload</button>
+        </form>
     </div>
 {% endblock body %}

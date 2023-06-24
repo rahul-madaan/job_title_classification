@@ -24,5 +24,15 @@ def upload_excel(request):
 def train_model(request):
     return render(request, 'train_model.html')
 
+
 def get_predictions(request):
-    return render(request, 'get_predictions.html')
+    if request.method == 'POST':
+        form = ExcelFileUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            # Add your logic to process the file here
+            return render(request, 'success.html')
+    else:
+        form = ExcelFileUploadForm()
+    return render(request, 'get_predictions.html', {'form': form})
