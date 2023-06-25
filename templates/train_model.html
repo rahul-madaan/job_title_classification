@@ -3,29 +3,41 @@
 {% block body %}
 
     <style>
-        .btn.btn-primary {
+        .btn.btn-primary-custom {
             background-color: #007BFF; /* Your custom color */
             border: none;
         }
 
-        .btn.btn-warning {
+        .btn.btn-warning-custom {
             background-color: #CCCCCC; /* Your custom color */
             border: none;
         }
 
-        .btn.btn-warning:hover {
+        .btn.btn-warning-custom:hover {
             background-color: #0056B3; /* Custom hover background color */
             color: #ffffff; /* Custom hover text color */
         }
+
+        .btn.btn-warning:hover {
+            background-color: #E1AF30; /* Custom hover background color */
+            color: #000; /* Custom hover text color */
+        }
+
+        .custom-form p {
+            font-family: Raleway, sans-serif; /*Choose the font you want here*/
+            font-size: 16px; /*Adjust the font size here*/
+            /* Add any other styles you want to apply to the form */
+        }
+
     </style>
 
     <div class="container my-3 d-flex justify-content-center">
         <div class="btn-group w-100" role="group" aria-label="Basic example">
-            <button type="button" onclick="window.location.href='/train_model/'" class="btn btn-lg btn-primary w-100"
+            <button type="button" onclick="window.location.href='/train_model/'" class="btn btn-lg btn-primary-custom w-100"
                     style="font-family: Raleway, sans-serif">TRAIN MODEL
             </button>
             <button type="button" onclick="window.location.href='/get_predictions/'"
-                    class="btn btn-lg btn-warning w-100" style="font-family: Raleway, sans-serif">GET PREDICTIONS
+                    class="btn btn-lg btn-warning-custom w-100" style="font-family: Raleway, sans-serif">GET PREDICTIONS
             </button>
         </div>
     </div>
@@ -34,6 +46,34 @@
         <h4>TRAIN MODEL</h4>
     </div>
     <hr>
+    <div class="container d-flex justify-content-center my-2 " style="margin-right: 30px; padding-bottom: 30px">
+        <h4 style="margin-right: 15px">Step 1: </h4>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="custom-form">
+                {{ form.as_p }}
+            </div>
+            <div class="container d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning " style="width: 200px; margin-right: 270px"
+                        name="form_name" value="upload_excel">Upload Excel
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="container d-flex justify-content-center my-2 " style="padding-bottom: 30px">
+        <h4 style="margin-right: 30px">Step 2: </h4>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning" name="form_name" value="run_model" style="width: 200px">Run
+                Model
+            </button>
+        </form>
+        {#        <a href="{% url 'run_model' %}" class="btn btn-warning">Run Model</a>#}
+    </div>
+    <div class="container d-flex justify-content-center my-2 " style="padding-bottom: 30px">
+        <h4 style="margin-right: 30px">Step 3: </h4>
+        <a href="{% url 'download_excel' %}" class="btn btn-success" style="width: 200px">Download Results</a>
+    </div>
     <div class="container">
         <form method="post" action="{% url 'button_view' %}">
             {% csrf_token %}

@@ -28,11 +28,16 @@ def upload_excel(request):
 
 
 def train_model(request):
-    return render(request, 'train_model.html')
+    form = ExcelFileUploadForm(request.POST, request.FILES)
+
+    return render(request, 'train_model.html', {'form': form})
 
 
 def get_predictions(request):
-    print(request.POST.get('job_title') == "")
+    if request.method == 'POST' and request.POST.get('form_name') == 'run_model':
+        response = run_model(request)
+        return response
+
     if request.method == 'POST' and request.POST.get('form_name') == 'run_model_single':
         if request.POST.get('job_title') == "":
             messages.add_message(request, messages.WARNING, "Job Title cannot be empty!")
