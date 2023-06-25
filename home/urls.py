@@ -9,5 +9,6 @@ urlpatterns = [
     path('download_excel/', views.download_excel, name='download_excel'),
     path('button_view/', views.button_view, name='button_view'),
     path('run_model/', views.run_model, name='run_model'),
+    path('run_model_single/', views.run_model_single, name='run_model_single'),
 
 ]

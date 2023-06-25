@@ -25,5 +25,6 @@ urlpatterns = [
     path('download_excel/', include('home.urls')),
     path('button_view/', include('home.urls')),
     path('run_model/', include('home.urls')),
+    path('run_model_single/', include('home.urls')),
 
 ]

@@ -32,7 +32,12 @@ def train_model(request):
 
 
 def get_predictions(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST.get('form_name') == 'run_model_single':
+        job_title = request.POST.get('job_title')
+        industry = prediction([job_title])
+        return render(request, 'get_predictions.html', {'predicted_industry': industry[0]})
+
+    if request.method == 'POST' and request.POST.get('form_name') == 'upload_excel':
         files = glob.glob('uploaded_files/*')
         for f in files:
             os.remove(f)
@@ -83,7 +88,7 @@ def run_model(request):
     input_df = pd.read_excel("uploaded_files/input.xlsx")
     list(input_df['job title'])
 
-    #open excel, copy first column(job title) and send in predict function.
+    # open excel, copy first column(job title) and send in predict function.
     industries = prediction(input_df['job title'])
     print(industries)
 
@@ -92,3 +97,12 @@ def run_model(request):
     result_df.to_excel("output_files/output.xlsx", index=False)
     messages.add_message(request, messages.SUCCESS, "Output ready to be downloaded!")
     return render(request, 'get_predictions.html')
+
+
+def run_model_single(request):
+    if request.method == "POST":
+        job_title = request.POST.get('job_title')
+        industry = prediction([job_title])
+        return render(request, 'get_predictions.html', {'predicted_industry': industry[0]})
+    else:
+        return render(request, 'get_predictions.html')

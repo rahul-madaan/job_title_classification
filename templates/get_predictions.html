@@ -55,7 +55,7 @@
                 {{ form.as_p }}
             </div>
             <div class="container d-flex justify-content-center">
-                <button type="submit" class="btn btn-warning" style="width: 200px; margin-right: 270px">Upload Excel
+                <button type="submit" class="btn btn-warning " style="width: 200px; margin-right: 270px"  name="form_name" value="upload_excel">Upload Excel
                 </button>
             </div>
         </form>
@@ -67,6 +67,26 @@
     <div class="container d-flex justify-content-center my-2 " style="padding-bottom: 30px">
         <h4 style="margin-right: 30px">Step 3: </h4>
         <a href="{% url 'download_excel' %}" class="btn btn-success" style="width: 200px">Download Results</a>
+    </div>
+    <hr>
+    <div class="container  d-flex justify-content-center my-2">
+        <h3>Try out the Model</h3>
+    </div>
+
+    <div class="container  d-flex justify-content-center my-2">
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3" style="width: 300px">
+                <label for="job_title" class="form-label">Job Title</label>
+                <input type="text" class="form-control" id="job_title" name="job_title">
+                <div id="emailHelp" class="form-text">Industry will be predicted by the model</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Predicted Industry</label>
+                <h5>{{ predicted_industry }}</h5>
+            </div>
+            <button type="submit" class="btn btn-primary" name="form_name" value="run_model_single">Submit</button>
+        </form>
     </div>
 
 {% endblock body %}
