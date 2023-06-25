@@ -4,6 +4,6 @@ def prediction(job_title):
         f.write('Create a new text file!')
 
     model = load('classifier/model.joblib')
-    pred_industry = model.predict([job_title])
-    return pred_industry[0]
+    pred_industry = model.predict(job_title)
+    return pred_industry
 

@@ -1,3 +1,4 @@
+import pandas as pd
 from django.shortcuts import render, redirect
 from .forms import ExcelFileUploadForm
 from django.http import FileResponse
@@ -15,9 +16,6 @@ def index(request):
 
 def upload_excel(request):
     if request.method == 'POST':
-        files = glob.glob('uploaded_files/*')
-        for f in files:
-            os.remove(f)
         form = ExcelFileUploadForm(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
@@ -35,6 +33,9 @@ def train_model(request):
 
 def get_predictions(request):
     if request.method == 'POST':
+        files = glob.glob('uploaded_files/*')
+        for f in files:
+            os.remove(f)
         form = ExcelFileUploadForm(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save(commit=False)
@@ -45,7 +46,7 @@ def get_predictions(request):
             filename, file_extension = os.path.splitext(uploaded_file.name)
             if file_extension.lower() == '.xlsx':
                 # Rename the file
-                new_filename = 'new_name.xlsx'
+                new_filename = 'input.xlsx'
                 os.rename(instance.excel_file.path,
                           os.path.join(os.path.dirname(instance.excel_file.path), new_filename))
                 messages.add_message(request, messages.SUCCESS, 'Excel file uploaded successfully')
@@ -79,6 +80,15 @@ def button_view(request):
 
 
 def run_model(request):
-    response = prediction("sales head")
-    messages.add_message(request, messages.SUCCESS, response)
+    input_df = pd.read_excel("uploaded_files/input.xlsx")
+    list(input_df['job title'])
+
+    #open excel, copy first column(job title) and send in predict function.
+    industries = prediction(input_df['job title'])
+    print(industries)
+
+    industry_df = pd.DataFrame(industries, columns=['industry'])
+    result_df = pd.concat([input_df['job title'], industry_df['industry']], axis=1)
+    result_df.to_excel("output_files/output.xlsx", index=False)
+    messages.add_message(request, messages.SUCCESS, "Output ready to be downloaded!")
     return render(request, 'get_predictions.html')
