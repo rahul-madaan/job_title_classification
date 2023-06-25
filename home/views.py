@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import ExcelFileUploadForm
+from django.http import FileResponse
 import os
 
 # Create your views here.
@@ -49,3 +50,10 @@ def get_predictions(request):
     else:
         form = ExcelFileUploadForm()
     return render(request, 'get_predictions.html', {'form': form})
+
+
+def download_excel(request):
+    file_path = 'output_files/example.xlsx'
+    response = FileResponse(open(file_path, 'rb'), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{file_path.split("/")[-1]}"'
+    return response

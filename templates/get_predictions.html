@@ -48,14 +48,15 @@
     </div>
     <hr>
     <div class="container d-flex justify-content-center my-2 " style="margin-right: 30px; padding-bottom: 30px">
-    <h4 style="margin-right: 15px">Step 1: </h4>
+        <h4 style="margin-right: 15px">Step 1: </h4>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="custom-form">
                 {{ form.as_p }}
             </div>
-            <div class="container d-flex justify-content-center" >
-                <button type="submit" class="btn btn-warning" style="width: 200px; margin-right: 270px">Upload Excel</button>
+            <div class="container d-flex justify-content-center">
+                <button type="submit" class="btn btn-warning" style="width: 200px; margin-right: 270px">Upload Excel
+                </button>
             </div>
         </form>
     </div>
@@ -65,6 +66,7 @@
     </div>
     <div class="container d-flex justify-content-center my-2 " style="padding-bottom: 30px">
         <h4 style="margin-right: 30px">Step 3: </h4>
-        <button class="btn-success btn" style="width: 200px">Download Results</button>
+        <a href="{% url 'download_excel' %}" class="btn btn-success" style="width: 200px">Download Results</a>
     </div>
+
 {% endblock body %}
