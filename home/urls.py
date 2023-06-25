@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from home import views
 
 urlpatterns = [
@@ -8,5 +8,6 @@ urlpatterns = [
     path('get_predictions/', views.get_predictions, name='get_predictions'),
     path('download_excel/', views.download_excel, name='download_excel'),
     path('button_view/', views.button_view, name='button_view'),
+    path('run_model/', views.run_model, name='run_model'),
 
 ]
