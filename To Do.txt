@@ -2,3 +2,13 @@
 2. before upload new file, clear the uploaded_file directory.
 3. use the new_name.xlsx to process
 4. show messages notification
+
+
+
+
+
+
+
+
+
+n. make predictions for the input job title single.
