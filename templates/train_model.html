@@ -55,7 +55,7 @@
             </div>
             <div class="container d-flex justify-content-center">
                 <button type="submit" class="btn btn-warning " style="width: 200px; margin-right: 270px"
-                        name="form_name" value="upload_excel">Upload Excel
+                        name="form_name" value="upload_excel">Upload Training data
                 </button>
             </div>
         </form>
@@ -64,15 +64,13 @@
         <h4 style="margin-right: 30px">Step 2: </h4>
         <form method="post">
             {% csrf_token %}
-            <button type="submit" class="btn btn-warning" name="form_name" value="run_model" style="width: 200px">Run
-                Model
-            </button>
+            <button type="submit" class="btn btn-warning" name="form_name" value="run_model" style="width: 200px">Select Model</button>
         </form>
-        {#        <a href="{% url 'run_model' %}" class="btn btn-warning">Run Model</a>#}
     </div>
+    <p class="text-center">test split %</p>
     <div class="container d-flex justify-content-center my-2 " style="padding-bottom: 30px">
         <h4 style="margin-right: 30px">Step 3: </h4>
-        <a href="{% url 'download_excel' %}" class="btn btn-success" style="width: 200px">Download Results</a>
+        <a href="{% url 'download_excel' %}" class="btn btn-success" style="width: 200px">Train Model</a>
     </div>
     <div class="container">
         <form method="post" action="{% url 'button_view' %}">
