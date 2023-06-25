@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import ExcelFileUploadForm
 from django.http import FileResponse
+from django.contrib import messages
 import os
 
 # Create your views here.
@@ -57,3 +58,12 @@ def download_excel(request):
     response = FileResponse(open(file_path, 'rb'), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = f'attachment; filename="{file_path.split("/")[-1]}"'
     return response
+
+
+def button_view(request):
+    if request.method == "POST":
+        # Add your button functionality here.
+        # display the message
+        messages.success(request, 'Button pressed successfully!')
+        return redirect("train_model")
+    return render(request, 'train_model.html')

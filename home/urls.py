@@ -7,5 +7,6 @@ urlpatterns = [
     path('train_model/', views.train_model, name='train_model'),
     path('get_predictions/', views.get_predictions, name='get_predictions'),
     path('download_excel/', views.download_excel, name='download_excel'),
+    path('button_view/', views.button_view, name='button_view'),
 
 ]

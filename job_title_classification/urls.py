@@ -23,4 +23,6 @@ urlpatterns = [
     path('train_model/', include('home.urls')),
     path('get_predictions/', include('home.urls')),
     path('download_excel/', include('home.urls')),
+    path('button_view/', include('home.urls')),
+
 ]
