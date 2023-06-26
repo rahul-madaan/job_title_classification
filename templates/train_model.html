@@ -29,6 +29,16 @@
             /* Add any other styles you want to apply to the form */
         }
 
+        .absolute-position {
+            position: absolute;
+            top: 340px;
+            left: 1250px;
+            width: 300px;
+            height: 100px;
+            background: lightgray;
+            border-radius: 11px;
+        }
+
     </style>
 
     <div class="container my-3 d-flex justify-content-center">
@@ -64,7 +74,8 @@
     <div class="container d-flex justify-content-center my-2 " style="padding-bottom: 30px;">
         <form method="post">
             {% csrf_token %}
-            <div class="container d-flex justify-content-center " style="padding-bottom: 30px; margin-left: 10px; margin-top: 10px;" >
+            <div class="container d-flex justify-content-center "
+                 style="padding-bottom: 30px; margin-left: 10px; margin-top: 10px;">
                 <h4 style="margin-right: 30px; margin-left: 72px">Step 2: </h4>
                 <label for="modeldropdown" style="margin-right: 10px">Select Model</label>
                 <select name="modeldropdown">
@@ -88,6 +99,14 @@
             </div>
         </form>
     </div>
+    {% if f1_score and f1_score != "" and accuracy and accuracy != "" %}
+    <div class="container absolute-position" style="padding-bottom: 30px">
+    <h4>Results:</h4>
+        <h6 style="margin-right: 30px">Accuracy Score: {{ accuracy }}% </h6>
+        <h6 style="margin-right: 30px">F1 Score: {{ f1_score }}% </h6>
+    </div>
+    {% endif %}
+
     <hr>
     <div class="container  d-flex justify-content-center my-2">
         <h3>Try the new Model</h3>

@@ -5,7 +5,7 @@ from django.http import FileResponse
 from django.contrib import messages
 import os
 import glob
-from classifier.model import prediction
+from classifier.model import prediction, naive_bayes, linear_svm, logistic_regression
 
 
 # Create your views here.
@@ -29,13 +29,23 @@ def upload_excel(request):
 
 def train_model(request):
     if request.method == 'POST' and request.POST.get('form_name') == 'train_model':
-        if request.POST.get('testsplit') == "":
+        test_split = request.POST.get('testsplit')
+        if test_split == "":
             messages.add_message(request, messages.WARNING, 'Test split % cannot be empty!')
             return render(request, 'train_model.html')
 
-        print("selected model = ", request.POST.get('modeldropdown'))
-        print("test split = ", request.POST.get('testsplit'))
-        return render(request, 'train_model.html')
+        if request.POST.get('modeldropdown') == 'naivebayes':
+            accuracy, f1 = naive_bayes(test_split)
+            messages.add_message(request, messages.SUCCESS, 'Naive Bayes Model successfully trained on input data!')
+        elif request.POST.get('modeldropdown') == 'linearsvm':
+            accuracy, f1 = linear_svm(test_split)
+            messages.add_message(request, messages.SUCCESS, 'Linear SVM Model successfully trained on input data!')
+        elif request.POST.get('modeldropdown') == 'logisticregression':
+            accuracy, f1 = logistic_regression(test_split)
+            messages.add_message(request, messages.SUCCESS, 'Logistic Regression Model successfully trained on input data!')
+
+        context = {'accuracy': accuracy, 'f1_score': f1}
+        return render(request, 'train_model.html', context)
 
     if request.method == 'POST' and request.POST.get('form_name') == 'upload_training_data':
         files = glob.glob('uploaded_files/training/*')
