@@ -28,6 +28,15 @@ def upload_excel(request):
 
 
 def train_model(request):
+    if request.method == 'POST' and request.POST.get('form_name') == 'train_model':
+        if request.POST.get('testsplit') == "":
+            messages.add_message(request, messages.WARNING, 'Test split % cannot be empty!')
+            return render(request, 'train_model.html')
+
+        print("selected model = ", request.POST.get('modeldropdown'))
+        print("test split = ", request.POST.get('testsplit'))
+        return render(request, 'train_model.html')
+
     if request.method == 'POST' and request.POST.get('form_name') == 'upload_training_data':
         files = glob.glob('uploaded_files/training/*')
         for f in files:
