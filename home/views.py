@@ -99,6 +99,7 @@ def get_predictions(request):
 
     if request.method == 'POST' and request.POST.get('form_name') == 'upload_excel':
         files = glob.glob('uploaded_files/*')
+        files.remove('uploaded_files/training')
         for f in files:
             os.remove(f)
         form = ExcelFileUploadForm(request.POST, request.FILES)
