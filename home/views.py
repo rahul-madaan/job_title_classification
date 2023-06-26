@@ -28,6 +28,14 @@ def upload_excel(request):
 
 
 def train_model(request):
+    if request.method == 'POST' and request.POST.get('form_name') == 'run_model_single':
+        if request.POST.get('job_title') == "":
+            messages.add_message(request, messages.WARNING, "Job Title cannot be empty!")
+        else:
+            job_title = request.POST.get('job_title')
+            industry = prediction([job_title])
+            return render(request, 'train_model.html', {'predicted_industry': industry[0]})
+
     if request.method == 'POST' and request.POST.get('form_name') == 'train_model':
         test_split = request.POST.get('testsplit')
         if test_split == "":
