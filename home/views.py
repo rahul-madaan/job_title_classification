@@ -28,8 +28,32 @@ def upload_excel(request):
 
 
 def train_model(request):
-    form = ExcelFileUploadForm(request.POST, request.FILES)
+    if request.method == 'POST' and request.POST.get('form_name') == 'upload_training_data':
+        files = glob.glob('uploaded_files/training/*')
+        for f in files:
+            os.remove(f)
+        form = ExcelFileUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
 
+            # Check if the file is a .xlsx file
+            uploaded_file = request.FILES['excel_file']
+            filename, file_extension = os.path.splitext(uploaded_file.name)
+            if file_extension.lower() == '.xlsx':
+                # Rename the file
+                new_filename = 'training_data.xlsx'
+                os.rename(instance.excel_file.path,
+                          os.path.join(os.path.dirname(instance.excel_file.path),'training' ,new_filename))
+                messages.add_message(request, messages.SUCCESS, 'Excel file uploaded successfully')
+                # Add your logic to process the file here
+                return render(request, 'train_model.html')
+            else:
+                # Handle the case when the file is not a .xlsx file
+                instance.delete()
+                messages.error(request, 'Invalid file format. Please upload a .xlsx file.')
+    else:
+        form = ExcelFileUploadForm()
     return render(request, 'train_model.html', {'form': form})
 
 
