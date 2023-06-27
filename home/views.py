@@ -18,8 +18,6 @@ def upload_excel(request):
     if request.method == 'POST':
         form = ExcelFileUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            instance = form.save(commit=False)
-            instance.save()
             # Add your logic to process the file here
             return render(request, 'success.html')
     else:
@@ -33,7 +31,6 @@ def train_model(request):
             messages.add_message(request, messages.WARNING, "Job Title cannot be empty!")
         else:
             job_title = request.POST.get('job_title')
-            industry = prediction([job_title])
             return render(request, 'train_model.html', {'predicted_industry': industry[0]})
 
     if request.method == 'POST' and request.POST.get('form_name') == 'train_model':
@@ -43,16 +40,14 @@ def train_model(request):
             return render(request, 'train_model.html')
 
         if request.POST.get('modeldropdown') == 'naivebayes':
-            accuracy, f1 = naive_bayes(test_split)
+
             messages.add_message(request, messages.SUCCESS, 'Naive Bayes Model successfully trained on input data!')
         elif request.POST.get('modeldropdown') == 'linearsvm':
-            accuracy, f1 = linear_svm(test_split)
             messages.add_message(request, messages.SUCCESS, 'Linear SVM Model successfully trained on input data!')
         elif request.POST.get('modeldropdown') == 'logisticregression':
             accuracy, f1 = logistic_regression(test_split)
             messages.add_message(request, messages.SUCCESS, 'Logistic Regression Model successfully trained on input data!')
 
-        context = {'accuracy': accuracy, 'f1_score': f1}
         return render(request, 'train_model.html', context)
 
     if request.method == 'POST' and request.POST.get('form_name') == 'upload_training_data':
@@ -66,12 +61,10 @@ def train_model(request):
 
             # Check if the file is a .xlsx file
             uploaded_file = request.FILES['excel_file']
-            filename, file_extension = os.path.splitext(uploaded_file.name)
+
             if file_extension.lower() == '.xlsx':
                 # Rename the file
                 new_filename = 'training_data.xlsx'
-                os.rename(instance.excel_file.path,
-                          os.path.join(os.path.dirname(instance.excel_file.path),'training' ,new_filename))
                 messages.add_message(request, messages.SUCCESS, 'Excel file uploaded successfully')
                 # Add your logic to process the file here
                 return render(request, 'train_model.html')
@@ -94,7 +87,6 @@ def get_predictions(request):
             messages.add_message(request, messages.WARNING, "Job Title cannot be empty!")
         else:
             job_title = request.POST.get('job_title')
-            industry = prediction([job_title])
             return render(request, 'get_predictions.html', {'predicted_industry': industry[0]})
 
     if request.method == 'POST' and request.POST.get('form_name') == 'upload_excel':
@@ -109,10 +101,8 @@ def get_predictions(request):
 
             # Check if the file is a .xlsx file
             uploaded_file = request.FILES['excel_file']
-            filename, file_extension = os.path.splitext(uploaded_file.name)
             if file_extension.lower() == '.xlsx':
                 # Rename the file
-                new_filename = 'input.xlsx'
                 os.rename(instance.excel_file.path,
                           os.path.join(os.path.dirname(instance.excel_file.path), new_filename))
                 messages.add_message(request, messages.SUCCESS, 'Excel file uploaded successfully')
@@ -129,8 +119,6 @@ def get_predictions(request):
 
 def download_excel(request):
     file_path = 'output_files/output.xlsx'
-    response = FileResponse(open(file_path, 'rb'),
-                            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = f'attachment; filename="{file_path.split("/")[-1]}"'
     # messages.add_message(request, messages.SUCCESS, 'Excel file downloaded successfully')
     return response
@@ -138,9 +126,6 @@ def download_excel(request):
 
 def button_view(request):
     if request.method == "POST":
-        # Add your button functionality here.
-        # display the message
-        messages.success(request, 'Button pressed successfully!')
         return redirect("train_model")
     return render(request, 'train_model.html')
 
@@ -153,8 +138,6 @@ def run_model(request):
     industries = prediction(input_df['job title'])
     print(industries)
 
-    industry_df = pd.DataFrame(industries, columns=['industry'])
-    result_df = pd.concat([input_df['job title'], industry_df['industry']], axis=1)
     result_df.to_excel("output_files/output.xlsx", index=False)
     messages.add_message(request, messages.SUCCESS, "Output ready to be downloaded!")
     return render(request, 'get_predictions.html')
@@ -162,8 +145,6 @@ def run_model(request):
 
 def run_model_single(request):
     if request.method == "POST":
-        job_title = request.POST.get('job_title')
-        industry = prediction([job_title])
         return render(request, 'get_predictions.html', {'predicted_industry': industry[0]})
     else:
         return render(request, 'get_predictions.html')
